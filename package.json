@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-	  "elvenar",
-	  "discord",
-	  "bot"
+    "elvenar",
+    "discord",
+    "bot"
   ],
   "author": "raneo",
   "license": "AGPL-3.0",
@@ -24,11 +24,11 @@
     "eslint": "^7.32.0"
   },
   "repository": {
-	"type": "git",
-	"url": "git+https://github.com/raneo/wonderfilly.git"
+    "type": "git",
+    "url": "git+https://github.com/raneo/wonderfilly.git"
   },
   "bugs": {
-	"url": "https://github.com/raneo/wonderfilly/issues"
+    "url": "https://github.com/raneo/wonderfilly/issues"
   },
   "homepage": "https://github.com/raneo/wonderfilly#readme"
 }
