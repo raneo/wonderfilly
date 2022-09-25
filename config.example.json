@@ -1,0 +1,9 @@
+{
+  "token": "<bot token>",
+  "clientId": "<oauth2 client id>",
+  "prefix": "wf",
+  "ownerID": "<user id of bot owner>",
+  "onChannel": [
+    "<channel ids of the channels that are served by the bot (bot must be invited already)>"
+  ]
+}
