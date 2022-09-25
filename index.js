@@ -19,16 +19,9 @@ fs.readdir("./events/", (err, files) => {
 
 client.commands = new Enmap();
 client.wfChannel = new Map();
-client.wfChannel.set(config.onChannel[0], {}); //spassbad wondertest
-client.wfChannel.set(config.onChannel[1], {}); //spassbad wonderfilly
-client.wfChannel.set(config.onChannel[2], {}); //expect us wonderfilly-1
-client.wfChannel.set(config.onChannel[3], {}); //expect us wonderfilly-2
-client.wfChannel.set(config.onChannel[4], {}); //christa wonderfilly-1
-client.wfChannel.set(config.onChannel[5], {}); //christa andereWelten-1
-client.wfChannel.set(config.onChannel[6], {}); //christa andereWelten-1
-client.wfChannel.set(config.onChannel[7], {}); //christa andereWelten-1
-client.wfChannel.set(config.onChannel[8], {}); //christa andereWelten-1
-client.wfChannel.set(config.onChannel[9], {}); //christa andereWelten-1
+for (var i = 0; i < config.onChannel.length; ++i) {
+  client.wfChannel.set(config.onChannel[i], {});
+}
 
 fs.readdir("./commands/", (err, files) => {
   var slashCommands = [];
