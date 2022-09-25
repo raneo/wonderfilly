@@ -1,17 +1,24 @@
 const helper = require("../commands/help.js");
-exports.run = async (client, message, args) => {
-  if (message.channel.type === "dm") return; // do not respond to DM
+const { SlashCommandBuilder } = require('discord.js');
 
-  var tempOutput = client.wfChannel.get(message.channel.id);
+exports.build = (client) => {
+  return new SlashCommandBuilder().setName(client.config.prefix + 'del').setDescription('Wonderfilly: Ausbau beenden und Channel aufräumen');
+};
+
+exports.run = async (client, interaction) => {
+  // do not respond to DM
+  if (interaction.guildId === null) {
+    await interaction.reply('Dieser Befehl funktioniert nur auf einem Discord-Server. Versuche es in einem Wonderfilly-Channel noch einmal! :)');
+    return;
+  }
+
+  var tempOutput = client.wfChannel.get(interaction.channelId);
   tempOutput.flagBuilderSet = false;
   tempOutput.flagStarted = false;
 
-  message.channel.bulkDelete(100)
+  client.channels.fetch(interaction.channelId)
+    .then(channel => channel.bulkDelete(100, true))
     .catch(error => console.log(`[c/del] ${error}`));
 
-  helper.run(client, message, args);
+  helper.run(client, interaction);
 }
-
-switch ()
-case 1: do portforwarding(12, 13
-)

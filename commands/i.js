@@ -1,17 +1,28 @@
 const wArr = require("../data.json");
 const update = require("../modules/update.js");
-exports.run = async (client, message, args) => {
+const { SlashCommandBuilder } = require('discord.js');
 
-  var tempOutput = client.wfChannel.get(message.channel.id);
-  if (message.channel.type !== "dm" && tempOutput.flagBuilderSet) {
-    message.channel.send(`<@${message.author.id}> ` + "Es kann kein neues Infopanel aufgerufen werden, solange sich noch ein Wunder im Ausbau befindet. Bitte erst mit `/wfdel` beenden.");
+exports.build = (client) => {
+  return new SlashCommandBuilder()
+    .setName(client.config.prefix + 'i')
+    .setDescription('Wonderfilly: Infopanel')
+    .addStringOption(option => option.setName('synonym').setDescription('Wundersynonym').setRequired(true))
+    .addIntegerOption(option => option.setName('level').setDescription('Wunderstufe').setRequired(true))
+    .addStringOption(option => option.setName('name').setDescription('Ingame-Name').setRequired(true));
+};
+
+exports.run = async (client, interaction) => {
+
+  var tempOutput = client.wfChannel.get(interaction.channelId);
+  if (interaction.guildId !== null && tempOutput.flagBuilderSet) {
+    await interaction.reply(`<@${interaction.user.id}> ` + "Es kann kein neues Infopanel aufgerufen werden, solange sich noch ein Wunder im Ausbau befindet. Bitte erst mit `/wfdel` beenden.");
     return;
   }
 
-  args[0] = args[0].toLowerCase(); // synonym toLowerCase
+  var query = interaction.options.getString('synonym').toLowerCase(); // synonym toLowerCase
   var wonderID = -1; // find synonym and set wonderID
   for (i = 0; i < wArr.length; i++) {
-    if (wArr[i].synonyms.includes(args[0])) {
+    if (wArr[i].synonyms.includes(query)) {
       wonderID = i;
       //console.log("[c/i] wonderID:" + wonderID);
       break;
@@ -19,19 +30,19 @@ exports.run = async (client, message, args) => {
   }
   // if no synonym is found return
   if (wonderID == -1) {
-    message.channel.send("Ein Wunder mit dem Synonym '" + args[0] + "` ist mir nicht bekannt. :thinking: ");
+    await interaction.reply("Ein Wunder mit dem Synonym '" + interaction.options.getString('synonym') + "` ist mir nicht bekannt. :thinking: ");
     return;
   }
-  args.shift(); // popping the synonym
-  var wonderLevel = args.shift(); // popping the level
+  var wonderLevel = interaction.options.getInteger('level');
   // checks 1,6,... and empty entries
   if (wArr[wonderID].data[wonderLevel] === null || wArr[wonderID].data[wonderLevel] === undefined) {
-    message.channel.send(`Für den Ausbau auf Stufe ${wonderLevel} liegen mir keine Daten vor. :rolling_eyes:`);
+    await interaction.reply(`Für den Ausbau auf Stufe ${wonderLevel} liegen mir keine Daten vor. :rolling_eyes:`);
     return;
   }
   // check for ingameName in case of a channel message
-  if (message.channel.type === "text" && args.join(" ") == "") {
-    message.channel.send("Für den Ausbau fehlt noch der IngameName `/wfi [WunderSynonym] [WunderStufe] [IngameName]`");
+  var ingameName = interaction.options.getString('name');
+  if (ingameName === null) {
+    await interaction.reply("Für den Ausbau fehlt noch der IngameName `/wfi [WunderSynonym] [WunderStufe] [IngameName]`");
     return;
   }
 
@@ -52,19 +63,20 @@ exports.run = async (client, message, args) => {
   var output = {
     flagStarted: false,
     flagBuilderSet: false,
-    builderID: message.author.id,
+    builderID: interaction.user.id,
     headerDm:
     "═══ **《 " + wonderLevel + " 》 " + wArr[wonderID].name_ger + "**   ═══\n" +
     "Forschung: " + wArr[wonderID].data[wonderLevel][0] + " (" + wpCost + ") WP",
     table: xTable
   };
 
-  output.headerText = "Ansprechpartner: <@" + message.author.id + ">\n" + output.headerDm + " │ IngameName: `" + args.join(" ") + "`";
+  output.headerText = "Ansprechpartner: <@" + interaction.user.id + ">\n" + output.headerDm + " │ IngameName: `" + ingameName + "`";
+  await interaction.reply("loading data...");
   // remembering the message (to be able to edit it later)
-  output.pointer = await message.channel.send("loading data...");
+  output.pointer = await interaction.fetchReply();
 
   // in case there was an author argument
-  if (args.join(" ") != "") output.flagBuilderSet = true;
+  if (ingameName !== null) output.flagBuilderSet = true;
 
-  update(client, message, output);
+  update(client, interaction, output);
 }

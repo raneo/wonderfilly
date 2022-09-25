@@ -1,16 +1,35 @@
 const update = require("../modules/update.js");
-exports.run = async (client, message, args) => {
-  if (message.channel.type === "dm") return; // do not respond to DM
+const { SlashCommandBuilder } = require('discord.js');
 
-  var tempOutput = client.wfChannel.get(message.channel.id);
+exports.build = (client) => {
+  return new SlashCommandBuilder().setName(client.config.prefix + 'go').setDescription('Wonderfilly: Ausbau starten');
+};
+
+exports.run = async (client, interaction) => {
+  // do not respond to DM
+  if (interaction.guildId === null) {
+    await interaction.reply('Dieser Befehl funktioniert nur auf einem Discord-Server. Versuche es in einem Wonderfilly-Channel noch einmal! :)');
+    return;
+  }
+
+  var tempOutput = client.wfChannel.get(interaction.channelId);
+  
   // clear chat history
-  message.channel.bulkDelete(100)
-    .catch(error => console.log(`[c/go]: ${error}`));
- // post new info panel and start the process
-  tempOutput.pointer = await message.channel.send("loading data...");
+  client.channels.fetch(interaction.channelId)
+    .then(channel => channel.bulkDelete(100, true))
+    .catch(error => console.log(`[c/del] ${error}`));
+
+  // post new info panel and start the process
+  await interaction.reply('loading data...');
+  tempOutput.pointer = await interaction.fetchReply();
   tempOutput.flagStarted = true;
-  let roleWB = message.guild.roles.find(role => role.name === "Wunderbauer");
-  message.channel.send("Wunderaubau gestartet! " + roleWB + "\nReservieren/Einzahlung bestätigen: `/wff [TruhenNr]`\nReservierung aufheben: `/wff -[TruhenNr]`\nAusbau beenden: `/wfdel`");
+  var roles = await interaction.member.guild.roles.fetch();
+  let roleWB = roles.find(role => role.name === "Wunderbauer");
+  var channel = await client.channels.fetch(interaction.channelId);
+  await channel.send({
+    content: "Wunderaubau gestartet! " + roleWB.toString() + "\nReservieren/Einzahlung bestätigen: `/wff [TruhenNr]`\nReservierung aufheben: `/wff -[TruhenNr]`\nAusbau beenden: `/wfdel`",
+    allowedMentions: {roles: [roleWB.id]}
+  });
   tempOutput.pointer.pin();
-  update(client, message, tempOutput);
+  update(client, interaction, tempOutput);
 }
