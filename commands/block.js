@@ -17,6 +17,10 @@ exports.run = async (client, interaction) => {
   }
 
   var tempOutput = client.wfChannel.get(interaction.channelId);
+  if (tempOutput === null) {
+    await interaction.reply('Wovor belegte Truhen eingetragen werden können, muss ein Infopanel mit `/wfi [WunderSynonym] [WunderStufe] [IngameName]` für den Wunderausbau angelegt werden.')
+    return;
+  }
   if (tempOutput.flagStarted) {
     await interaction.reply("Wunderausbau wurde schon gestartet. `/wfblock` bitte stets **vor** Start des Ausbaus (`/wfgo`)");
     return;

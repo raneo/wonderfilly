@@ -20,7 +20,7 @@ fs.readdir("./events/", (err, files) => {
 client.commands = new Enmap();
 client.wfChannel = new Map();
 for (var i = 0; i < config.onChannel.length; ++i) {
-  client.wfChannel.set(config.onChannel[i], {});
+  client.wfChannel.set(config.onChannel[i], null);
 }
 
 fs.readdir("./commands/", (err, files) => {

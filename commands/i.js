@@ -14,6 +14,7 @@ exports.build = (client) => {
 exports.run = async (client, interaction) => {
 
   var tempOutput = client.wfChannel.get(interaction.channelId);
+  if (tempOutput === null) tempOutput = {};
   if (interaction.guildId !== null && tempOutput.flagBuilderSet) {
     await interaction.reply(`<@${interaction.user.id}> ` + "Es kann kein neues Infopanel aufgerufen werden, solange sich noch ein Wunder im Ausbau befindet. Bitte erst mit `/wfdel` beenden.");
     return;
