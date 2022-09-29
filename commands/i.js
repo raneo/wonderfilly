@@ -8,7 +8,7 @@ exports.build = (client) => {
     .setDescription('Wonderfilly: Infopanel')
     .addStringOption(option => option.setName('synonym').setDescription('Wundersynonym').setRequired(true))
     .addIntegerOption(option => option.setName('level').setDescription('Wunderstufe').setRequired(true))
-    .addStringOption(option => option.setName('name').setDescription('Ingame-Name').setRequired(true));
+    .addStringOption(option => option.setName('name').setDescription('Ingame-Name').setRequired(false));
 };
 
 exports.run = async (client, interaction) => {
@@ -42,7 +42,7 @@ exports.run = async (client, interaction) => {
   }
   // check for ingameName in case of a channel message
   var ingameName = interaction.options.getString('name');
-  if (ingameName === null) {
+  if (interaction.guildId !== null && ingameName === null) {
     await interaction.reply("Für den Ausbau fehlt noch der IngameName `/wfi [WunderSynonym] [WunderStufe] [IngameName]`");
     return;
   }
