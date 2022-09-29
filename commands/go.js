@@ -13,7 +13,11 @@ exports.run = async (client, interaction) => {
   }
 
   var tempOutput = client.wfChannel.get(interaction.channelId);
-  
+  if (tempOutput === null) {
+    await interaction.reply('Bevor der Wunderausbau gestartet werden kann, muss ein Infopanel mit `/wfi [WunderSynonym] [WunderStufe] [IngameName]` für diesen angelegt werden.')
+    return;
+  }
+
   // clear chat history
   client.channels.fetch(interaction.channelId)
     .then(channel => channel.bulkDelete(100, true))

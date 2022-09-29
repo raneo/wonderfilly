@@ -13,8 +13,10 @@ exports.run = async (client, interaction) => {
   }
 
   var tempOutput = client.wfChannel.get(interaction.channelId);
-  tempOutput.flagBuilderSet = false;
-  tempOutput.flagStarted = false;
+  if (tempOutput !== null) {
+    tempOutput.flagBuilderSet = false;
+    tempOutput.flagStarted = false;
+  }
 
   client.channels.fetch(interaction.channelId)
     .then(channel => channel.bulkDelete(100, true))
