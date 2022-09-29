@@ -22,7 +22,18 @@ Discord ChatBot for a browsergame called "Elvenar" to display detailed informati
 - `npm update`
 - `node index.js`
 
+	Alternatively you can also use the Dockerfile to build a Docker image, and run it:
+
+	```
+	docker build --name wonderfilly .
+	docker run -it -v $(pwd)/config.json:/home/node/app/config.json --name wonderfilly wonderfilly
+	```
+
 Now you should be able to use all commands in the specified channels and some of them in DMs.
+
+### Docker
+
+- clone
 
 ## Support
 
