@@ -15,6 +15,7 @@ exports.run = async (client, interaction) => {
     "• **Reservierung aufheben:** `/wff -[TruhenNr]`\n" +
     "• **Ausbau beenden und Channel aufräumen:** `/wfdel`\n",
     "• **WonderFilly Hilfe:** `/wfhelp`\n" +
+    "• **Support:** Falls ihr das Projekt finanziell unterstützen wollt, könnt ihr das hier: https://ko-fi.com/K3K1FAF8U \n" +
     "\xA0\n• **Liste der WunderSynonyme:**\n",
     "" // will get filled with the synonyms/names from data.json
   ];
