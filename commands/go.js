@@ -14,7 +14,7 @@ exports.run = async (client, interaction) => {
 
   var tempOutput = client.wfChannel.get(interaction.channelId);
   if (tempOutput === null) {
-    await interaction.reply('Wovor der Wunderausbau gestartet werden kann, muss ein Infopanel mit `/wfi [WunderSynonym] [WunderStufe] [IngameName]` für diesen angelegt werden.')
+    await interaction.reply('Bevor der Wunderausbau gestartet werden kann, muss ein Infopanel mit `/wfi [WunderSynonym] [WunderStufe] [IngameName]` für diesen angelegt werden.')
     return;
   }
 

@@ -17,7 +17,7 @@ exports.run = async (client, interaction) => {
 
   var tempOutput = client.wfChannel.get(interaction.channelId);
   if (tempOutput === null) {
-    await interaction.reply('Wovor Truhen reserviert werden können, muss ein Infopanel mit `/wfi [WunderSynonym] [WunderStufe] [IngameName]` für den Wunderausbau angelegt werden und dieser mit `/wfgo` gestartet werden.')
+    await interaction.reply('Bevor Truhen reserviert werden können, muss ein Infopanel mit `/wfi [WunderSynonym] [WunderStufe] [IngameName]` für den Wunderausbau angelegt werden und dieser mit `/wfgo` gestartet werden.')
     return;
   }
   if (!tempOutput.flagStarted) {
