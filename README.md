@@ -31,10 +31,6 @@ Discord ChatBot for a browsergame called "Elvenar" to display detailed informati
 
 Now you should be able to use all commands in the specified channels and some of them in DMs.
 
-### Docker
-
-- clone
-
 ## Support
 
 In case you like the wonderfilly project and want to support it for updates and hosting expenses:
