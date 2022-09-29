@@ -23,3 +23,9 @@ Discord ChatBot for a browsergame called "Elvenar" to display detailed informati
 - `node index.js`
 
 Now you should be able to use all commands in the specified channels and some of them in DMs.
+
+## Support
+
+In case you like the wonderfilly project and want to support it for updates and hosting expenses:
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K1FAF8U)
